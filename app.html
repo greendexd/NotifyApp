@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Reminder App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 10px; }
+        .task { margin: 10px 0; }
+        button { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Task Reminder App</h1>
+    <div class="task">
+        <label>
+            <input type="checkbox" id="task1">
+            TONxDAO
+        </label>
+    </div>
+    <div class="task">
+        <label>
+            <input type="checkbox" id="task2">
+            Ton Station
+        </label>
+    </div>
+    <div class="task">
+        <label>
+            <input type="checkbox" id="task3">
+            Tonique App
+        </label>
+    </div>
+    <button id="setReminder">Set Reminder</button>
+
+    <script>
+        Telegram.WebApp.ready();
+
+        const task1 = document.getElementById('task1');
+        const task2 = document.getElementById('task2');
+        const task3 = document.getElementById('task3');
+        const setReminderButton = document.getElementById('setReminder');
+
+        // При нажатии на кнопку "Set Reminder"
+        setReminderButton.addEventListener('click', () => {
+            let tasks = [];
+
+            if (task1.checked) tasks.push('TONxDAO');
+            if (task2.checked) tasks.push('Ton Station');
+            if (task3.checked) tasks.push('Tonique App');
+
+            if (tasks.length > 0) {
+                // Отправляем данные боту
+                Telegram.WebApp.sendData(JSON.stringify({
+                    tasks: tasks,
+                    reminderTime: 60 // Уведомление через 60 минут
+                }));
+                alert('Напоминание установлено для задач: ' + tasks.join(', '));
+            } else {
+                alert('Выберите хотя бы одну задачу.');
+            }
+        });
+    </script>
+</body>
+</html>
